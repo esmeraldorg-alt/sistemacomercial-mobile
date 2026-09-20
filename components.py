@@ -117,12 +117,14 @@ class CardIndicador(_RetanguloFundo):
         faixa.bind(pos=_upd_faixa, size=_upd_faixa)
 
         self.add_widget(faixa)
-        self.add_widget(label_esquerda(
+                self.add_widget(label_esquerda(
             titulo.upper(), font_size="11sp", bold=True,
-            color=COR_TEXTO_TITULO, size_hint_y=None, height=dp(18)))
+            color=COR_TEXTO_TITULO, size_hint_y=None, height=dp(18),
+            shorten=True, shorten_from="right"))
         self.add_widget(label_esquerda(
-            valor, font_size="22sp", bold=True, color=cor,
-            size_hint_y=None, height=dp(32)))
+            valor, font_size="20sp", bold=True, color=cor,
+            size_hint_y=None, height=dp(32),
+            shorten=True, shorten_from="right"))
         self.add_widget(label_esquerda(
             subtitulo or " ", font_size="10sp", color=COR_TEXTO_SUB,
             size_hint_y=None, height=dp(16)))
