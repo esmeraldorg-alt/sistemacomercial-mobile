@@ -57,10 +57,10 @@ class RelatorioVendasTab(BoxLayout):
         self.add_widget(barra)
 
         self.lbl_resumo = label_esquerda(
-            "", size_hint_y=None, height=dp(26), color=COR_LARANJA, bold=True)
+            "", size_hint_y=None, height=dp(26), color=COR_LARANJA, bold=False)
         self.add_widget(self.lbl_resumo)
 
-        titulos = ["Forma de Pagamento", "Qtd. Vendas", "Total (R$)"]
+        titulos = ["Forma de Pagamento", "Qtd. Vendas", "Total"]
         larguras = [1.4, 1, 1]
         self.add_widget(criar_cabecalho(titulos, larguras))
         self.tabela = TabelaDados(larguras=larguras)

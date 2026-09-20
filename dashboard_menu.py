@@ -250,7 +250,7 @@ class CaixaPopup(Popup):
             "Nenhum caixa aberto no momento.", color=COR_LARANJA,
             size_hint_y=None, height=dp(24), halign="center"))
         conteudo.add_widget(label_esquerda(
-            "Valor de Abertura (R$):", bold=True,
+            "Valor de Abertura (R$):", bold=False,
             size_hint_y=None, height=dp(22)))
         self.e_valor = TextInput(text="0.00", multiline=False,
                                   size_hint_y=None, height=dp(44),
@@ -310,7 +310,7 @@ class CaixaPopup(Popup):
                 conteudo.add_widget(label_esquerda(
                     f"Vendas FIADO no caixa: {utils.formatar_moeda(fiado['soma'])} "
                     f"({fiado['qtd']}x)\nNão entra no caixa físico — é conta a receber.",
-                    color=COR_LARANJA, bold=True, size_hint_y=None, height=dp(46),
+                    color=COR_LARANJA, bold=False, size_hint_y=None, height=dp(46),
                     halign="center"))
 
         linha_mov = BoxLayout(size_hint_y=None, height=dp(44), spacing=dp(8))

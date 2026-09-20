@@ -280,8 +280,8 @@ class DescontoPopup(Popup):
     def _montar(self, desconto_atual):
         raiz = BoxLayout(orientation="vertical", padding=dp(18), spacing=dp(10))
         raiz.add_widget(label_esquerda(
-            f"Subtotal: {utils.formatar_moeda(self.subtotal)}", bold=True,
-            halign="center", size_hint_y=None, height=dp(26)))
+            f"Subtotal: {utils.formatar_moeda(self.subtotal)}", bold=False,
+            font_size="15sp", halign="center", size_hint_y=None, height=dp(26)))
 
         raiz.add_widget(label_esquerda("Desconto em R$:", size_hint_y=None, height=dp(20)))
         self.e_valor = TextInput(text=f"{desconto_atual:.2f}", multiline=False,
@@ -296,7 +296,7 @@ class DescontoPopup(Popup):
 
         self.lbl_calc = label_esquerda(
             f"Total com desconto: {utils.formatar_moeda(self.subtotal - desconto_atual)}",
-            halign="center", color=COR_VERDE, bold=True,
+            halign="center", color=COR_VERDE, bold=False, font_size="15sp",
             size_hint_y=None, height=dp(26))
         raiz.add_widget(self.lbl_calc)
 
@@ -386,8 +386,8 @@ class PagamentoPopup(Popup):
         raiz = BoxLayout(orientation="vertical", padding=dp(16), spacing=dp(8))
 
         raiz.add_widget(label_esquerda(
-            f"Total: {utils.formatar_moeda(self.total_venda)}", bold=True,
-            font_size="20sp", color=COR_VERDE, halign="center",
+            f"Total: {utils.formatar_moeda(self.total_venda)}", bold=False,
+            font_size="21sp", color=COR_VERDE, halign="center",
             size_hint_y=None, height=dp(34)))
         if self.pdv.desconto > 0.001:
             raiz.add_widget(label_esquerda(
@@ -406,7 +406,7 @@ class PagamentoPopup(Popup):
                                       size_hint_y=None, height=dp(44))
         raiz.add_widget(self.spinner_forma)
 
-        raiz.add_widget(label_esquerda("Valor a Lançar (R$):", bold=True,
+        raiz.add_widget(label_esquerda("Valor a Lançar (R$):", bold=False,
                                         size_hint_y=None, height=dp(22)))
         linha_valor = BoxLayout(size_hint_y=None, height=dp(46), spacing=dp(8))
         self.e_valor = TextInput(text=f"{self.total_venda:.2f}", multiline=False,
@@ -701,11 +701,12 @@ class PDVScreen(Screen):
         raiz = BoxLayout(orientation="vertical")
 
         # ---- topo ----
-        topo = BoxLayout(size_hint_y=None, height=dp(70), padding=dp(12), spacing=dp(10))
-        info_cli = BoxLayout(orientation="vertical", size_hint_x=2)
+        topo = BoxLayout(size_hint_y=None, height=dp(88), padding=dp(12), spacing=dp(10))
+        info_cli = BoxLayout(orientation="vertical", size_hint_x=2, spacing=dp(4))
         self.lbl_cliente = label_esquerda(
             f"Cliente: {self.cliente_nome}", bold=True, color=(0.25, 0.82, 0.88, 1),
-            shorten=True, shorten_from="right", font_size="13sp")
+            shorten=True, shorten_from="right", font_size="13sp",
+            size_hint_y=None, height=dp(30))
         info_cli.add_widget(self.lbl_cliente)
         btn_trocar_cli = Button(text="Trocar Cliente (F9)", size_hint_y=None, height=dp(30))
         btn_trocar_cli.bind(on_release=lambda *_: self.abrir_selecao_cliente())
@@ -721,7 +722,7 @@ class PDVScreen(Screen):
             "TOTAL A PAGAR", halign="right", font_size="10sp", color=COR_CINZA,
             size_hint_y=None, height=dp(16)))
         self.lbl_total = label_esquerda(
-            "R$ 0,00", halign="right", bold=True, font_size="24sp", color=COR_VERDE)
+            "R$ 0,00", halign="right", bold=False, font_size="25sp", color=COR_VERDE)
         info_total.add_widget(self.lbl_total)
         topo.add_widget(info_total)
         raiz.add_widget(topo)
@@ -756,14 +757,21 @@ class PDVScreen(Screen):
         abas_esquerda.default_tab = aba_produtos
         meio.add_widget(abas_esquerda)
 
-        col_botoes = ScrollView(size_hint_x=1.1)
+        col_botoes = ScrollView(size_hint_x=1.1, do_scroll_x=False)
         caixa_botoes = BoxLayout(orientation="vertical", size_hint_y=None, spacing=dp(6),
                                   padding=(dp(4), 0))
         caixa_botoes.bind(minimum_height=caixa_botoes.setter("height"))
+        # Sem isso, o BoxLayout dentro do ScrollView não acompanha a largura
+        # da coluna — os botões ficavam mais largos que a área visível e o
+        # texto era cortado nas duas pontas (ex.: "Aplicar Desconto (F7)"
+        # virava "olicar Desconto (F").
+        col_botoes.bind(width=lambda inst, val: setattr(caixa_botoes, "width", val))
 
         def botao(texto, cor, acao, altura=44):
             b = Button(text=texto, size_hint_y=None, height=dp(altura),
-                       background_color=cor)
+                       background_color=cor, font_size="12.5sp",
+                       shorten=True, shorten_from="right", halign="center")
+            b.bind(size=lambda inst, val: setattr(inst, "text_size", val))
             b.bind(on_release=lambda *_: acao())
             caixa_botoes.add_widget(b)
             return b
@@ -790,7 +798,7 @@ class PDVScreen(Screen):
                               multiline=False, size_hint_y=None, height=dp(42))
         e_filtro.bind(text=lambda inst, val: self._recarregar_grade(val))
         col.add_widget(e_filtro)
-        self.scroll_grade = ScrollView()
+        self.scroll_grade = ScrollView(do_scroll_x=False)
         self.grade_produtos = GridLayout(cols=3, spacing=dp(8), size_hint_y=None,
                                           padding=(0, dp(4)), col_force_default=True)
         self.grade_produtos.bind(minimum_height=self.grade_produtos.setter("height"))
@@ -801,9 +809,18 @@ class PDVScreen(Screen):
         return col
 
     def _recalcular_largura_colunas(self, inst, largura):
-        n_cols = inst.cols or 1
+        if largura <= 0:
+            return
+        # Número de colunas calculado a partir da largura disponível, em vez
+        # de fixo em 3: numa tela estreita, 3 colunas com largura mínima de
+        # 110dp cada não cabiam, e a última coluna ficava cortada fora da
+        # área visível (o ScrollView permitia rolar pro lado pra vê-la, mas
+        # isso passava a impressão de que produtos estavam "sumindo").
+        largura_alvo = dp(130)
+        n_cols = max(1, int((largura + inst.spacing[0]) // (largura_alvo + inst.spacing[0])))
+        inst.cols = n_cols
         espaco = inst.spacing[0] * (n_cols - 1) if inst.spacing else 0
-        inst.col_default_width = max(dp(110), (largura - espaco) / n_cols)
+        inst.col_default_width = (largura - espaco) / n_cols
 
     def _criar_aba_carrinho(self):
         col = BoxLayout(orientation="vertical")

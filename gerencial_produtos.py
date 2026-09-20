@@ -58,7 +58,7 @@ class PromocaoPopup(Popup):
             ate = datetime.strptime(promo["data_fim"], "%Y-%m-%d").strftime("%d/%m/%Y")
             raiz.add_widget(label_esquerda(
                 f"Vigente: {utils.formatar_moeda(promo['preco_promocional'])}\n"
-                f"De {de} até {ate}", color=COR_LARANJA, bold=True,
+                f"De {de} até {ate}", color=COR_LARANJA, bold=False,
                 size_hint_y=None, height=dp(46)))
             btn_cancelar = Button(text="Cancelar Promoção Vigente", size_hint_y=None,
                                   height=dp(42), background_color=COR_VERMELHO)

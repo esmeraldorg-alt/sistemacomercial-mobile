@@ -122,7 +122,7 @@ class CardIndicador(_RetanguloFundo):
             color=COR_TEXTO_TITULO, size_hint_y=None, height=dp(18),
             shorten=True, shorten_from="right"))
         self.add_widget(label_esquerda(
-            valor, font_size="20sp", bold=True, color=cor,
+            valor, font_size="21sp", bold=False, color=cor,
             size_hint_y=None, height=dp(32),
             shorten=True, shorten_from="right"))
         self.add_widget(label_esquerda(
