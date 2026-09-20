@@ -703,8 +703,9 @@ class PDVScreen(Screen):
         # ---- topo ----
         topo = BoxLayout(size_hint_y=None, height=dp(70), padding=dp(12), spacing=dp(10))
         info_cli = BoxLayout(orientation="vertical", size_hint_x=2)
-        self.lbl_cliente = label_esquerda(
-            f"Cliente: {self.cliente_nome}", bold=True, color=(0.25, 0.82, 0.88, 1))
+                self.lbl_cliente = label_esquerda(
+            f"Cliente: {self.cliente_nome}", bold=True, color=(0.25, 0.82, 0.88, 1),
+            shorten=True, shorten_from="right", font_size="13sp")
         info_cli.add_widget(self.lbl_cliente)
         btn_trocar_cli = Button(text="Trocar Cliente (F9)", size_hint_y=None, height=dp(30))
         btn_trocar_cli.bind(on_release=lambda *_: self.abrir_selecao_cliente())
