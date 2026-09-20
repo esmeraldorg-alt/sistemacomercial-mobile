@@ -1,0 +1,162 @@
+#:kivy 2.3.0
+
+<LoginScreen>:
+    campo_usuario: campo_usuario
+    campo_senha: campo_senha
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(30)
+        spacing: dp(14)
+        canvas.before:
+            Color:
+                rgba: 0.07, 0.08, 0.11, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Widget:
+            size_hint_y: 0.15
+
+        Label:
+            text: "Acesso ao Sistema"
+            font_size: "24sp"
+            bold: True
+            size_hint_y: None
+            height: dp(50)
+
+        Label:
+            text: "Usuário"
+            halign: "left"
+            valign: "middle"
+            text_size: self.size
+            size_hint_y: None
+            height: dp(24)
+
+        TextInput:
+            id: campo_usuario
+            multiline: False
+            size_hint_y: None
+            height: dp(52)
+            font_size: "16sp"
+            padding: [dp(12), dp(14)]
+
+        Label:
+            text: "Senha"
+            halign: "left"
+            valign: "middle"
+            text_size: self.size
+            size_hint_y: None
+            height: dp(24)
+
+        TextInput:
+            id: campo_senha
+            multiline: False
+            password: True
+            size_hint_y: None
+            height: dp(52)
+            font_size: "16sp"
+            padding: [dp(12), dp(14)]
+            on_text_validate: root.confirmar()
+
+        Widget:
+            size_hint_y: 0.1
+
+        Button:
+            text: "Entrar"
+            bold: True
+            size_hint_y: None
+            height: dp(56)
+            font_size: "16sp"
+            background_color: 0.10, 0.64, 0.38, 1
+            on_release: root.confirmar()
+
+        Widget:
+            size_hint_y: 0.3
+
+
+<TrocaSenhaScreen>:
+    campo_nova: campo_nova
+    campo_confirmacao: campo_confirmacao
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(30)
+        spacing: dp(14)
+        canvas.before:
+            Color:
+                rgba: 0.07, 0.08, 0.11, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Widget:
+            size_hint_y: 0.1
+
+        Label:
+            text: "Troca de Senha Obrigatória"
+            font_size: "20sp"
+            bold: True
+            color: 0.91, 0.64, 0.24, 1
+            size_hint_y: None
+            height: dp(46)
+
+        Label:
+            text: "Esta é a primeira vez que este usuário acessa.\\nDefina uma nova senha para continuar."
+            halign: "center"
+            text_size: self.width, None
+            size_hint_y: None
+            height: dp(50)
+
+        Label:
+            text: "Nova senha"
+            halign: "left"
+            text_size: self.size
+            size_hint_y: None
+            height: dp(24)
+
+        TextInput:
+            id: campo_nova
+            multiline: False
+            password: True
+            size_hint_y: None
+            height: dp(52)
+            font_size: "16sp"
+            padding: [dp(12), dp(14)]
+
+        Label:
+            text: "Confirme a nova senha"
+            halign: "left"
+            text_size: self.size
+            size_hint_y: None
+            height: dp(24)
+
+        TextInput:
+            id: campo_confirmacao
+            multiline: False
+            password: True
+            size_hint_y: None
+            height: dp(52)
+            font_size: "16sp"
+            padding: [dp(12), dp(14)]
+            on_text_validate: root.salvar()
+
+        Widget:
+            size_hint_y: 0.1
+
+        Button:
+            text: "Salvar Nova Senha"
+            bold: True
+            size_hint_y: None
+            height: dp(56)
+            font_size: "16sp"
+            background_color: 0.10, 0.64, 0.38, 1
+            on_release: root.salvar()
+
+        Widget:
+            size_hint_y: 0.3
+
+
+# PrincipalScreen agora é montada inteiramente em Python (ver app.py),
+# porque a barra superior e as abas Dashboard/Menu Principal dependem de
+# dados carregados em tempo de execução.
