@@ -13,15 +13,14 @@ jobs:
       - name: Baixar o codigo do repositorio
         uses: actions/checkout@v4
 
-      - name: Compilar o APK com Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
-        with:
-          command: buildozer android debug
-          buildozer_version: stable
+      - name: Compilar o APK com Buildozer via Docker
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/home/user/hostcwd" \
+            kivy/buildozer:latest android debug
 
       - name: Disponibilizar o APK para download
         uses: actions/upload-artifact@v4
         with:
           name: sistemacomercial-apk
-          path: ${{ steps.buildozer.outputs.filename }}
+          path: bin/*.apk
