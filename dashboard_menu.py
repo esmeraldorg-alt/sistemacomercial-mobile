@@ -68,7 +68,7 @@ class DashboardConteudo(ScrollView):
         self.container.add_widget(cabecalho)
 
         # --- Cards (2 linhas de 3) ---
-                grade = GridLayout(cols=2, size_hint_y=None, height=dp(340),
+        grade = GridLayout(cols=2, size_hint_y=None, height=dp(340),
                             spacing=dp(6))
         grade.add_widget(CardIndicador(
             "VENDAS HOJE", utils.formatar_moeda(resumo["vendas_total"]),
