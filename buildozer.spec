@@ -17,5 +17,6 @@ fullscreen = 0
 # Permissão de rede necessária para buscar_cep() (ViaCEP)
 android.permissions = INTERNET
 android.accept_sdk_license = True
+p4a.branch = develop
 [buildozer]
 log_level = 2
